@@ -9,6 +9,7 @@ from selenium.webdriver.common.by import By
 
 # imports form internal modules
 from browser import Browser
+from UICheckbox import UICheckbox as Checkbox
 from UIElement import UIElement as Element
 
 import time
@@ -87,6 +88,19 @@ converted_background_color = Color.from_string(background_color)
 assert converted_background_color.rgb == 'rgb(34, 154, 200)'
 
 # add some sleep time to be able to see the result
-time.sleep(5)
+time.sleep(2)
+
+driver.find_element_by_xpath("//input[@value='Continue']").submit()
+
+# Verifying successful registration
+# TODO: update on functions from UIElement - wait_until_visible and get_text
+successful_registration_title = browser.get_wd_wait().until(EC.visibility_of_element_located((By.XPATH, "//*[@id='content']/h1")))
+assert successful_registration_title.text == 'Your Account Has Been Created!'
+
+successful_registration_subtitle = browser.get_wd_wait().until(EC.visibility_of_element_located((By.XPATH, "//*[@id='content']/p")))
+assert successful_registration_subtitle.text == 'Congratulations! Your new account has been successfully created!'
+
+# add some sleep time to be able to see the result
+time.sleep(3)
 
 browser.shutdown()
